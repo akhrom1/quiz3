@@ -1,12 +1,15 @@
-describe("TC-SIDEBAR-001 - Cek menu sidebar muncul setelah login", () => {
+describe("Cek menu sidebar muncul setelah login", () => {
+  beforeEach(() => {
+    cy.loginAsAdmin();
+  });
   it("Sidebar harus muncul dan berisi menu utama", () => {
-    cy.visit(
-      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
-    );
+    // cy.visit(
+    //   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+    // );
 
-    cy.get('input[name="username"]').type("Admin");
-    cy.get('input[name="password"]').type("admin123");
-    cy.get('button[type="submit"]').click();
+    // cy.get('input[name="username"]').type("Admin");
+    // cy.get('input[name="password"]').type("admin123");
+    // cy.get('button[type="submit"]').click();
 
     cy.get(".oxd-sidepanel").should("be.visible");
 
