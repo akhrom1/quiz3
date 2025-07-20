@@ -2,6 +2,9 @@ describe("Cek menu profil user muncul setelah diklik", () => {
   beforeEach(() => {
     cy.loginAsAdmin();
   });
+  afterEach(() => {
+    cy.screenshot("profle/profile_menu_test");
+  });
   it("User bisa melihat dropdown menu profil setelah login", () => {
     // cy.visit(
     //   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"

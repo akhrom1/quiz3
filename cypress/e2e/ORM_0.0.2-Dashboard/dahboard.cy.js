@@ -2,7 +2,9 @@ describe("Dashboard Access", () => {
   beforeEach(() => {
     cy.loginAsAdmin();
   });
-
+  afterEach(() => {
+    cy.screenshot("dashboard/dashboard_access_test");
+  });
   it("Setelah login, user berada di halaman dashboard", () => {
     // cy.visit(
     //   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"

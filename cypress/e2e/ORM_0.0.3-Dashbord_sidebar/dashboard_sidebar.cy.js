@@ -2,6 +2,11 @@ describe("Cek menu sidebar muncul setelah login", () => {
   beforeEach(() => {
     cy.loginAsAdmin();
   });
+
+  afterEach(() => {
+    cy.screenshot("dashboard/dashboard_sidebar_test");
+  });
+
   it("Sidebar harus muncul dan berisi menu utama", () => {
     // cy.visit(
     //   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
