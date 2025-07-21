@@ -13,7 +13,7 @@ describe("Fitur Login OrangeHRM", () => {
   it("Login berhasil dengan username dan password valid", () => {
     cy.intercept(
       "GET",
-      "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/action-summary"
+      "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
     ).as("loginRequest");
 
     cy.get('input[name="username"]').type("Admin");
@@ -28,30 +28,30 @@ describe("Fitur Login OrangeHRM", () => {
 
   it("Login gagal dengan username salah", () => {
     cy.intercept(
-      "GET",
-      "https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages"
+      "POST",
+      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate"
     ).as("loginRequest");
 
     cy.get('input[name="username"]').type("adminx");
     cy.get('input[name="password"]').type("admin123");
     cy.get('button[type="submit"]').click();
 
-    cy.wait("@loginRequest").its("response.statusCode").should("eq", 304);
+    cy.wait("@loginRequest").its("response.statusCode").should("eq", 302);
 
     cy.get(".oxd-alert-content-text").should("contain", "Invalid credentials");
   });
 
   it("Login gagal dengan password salah", () => {
-    // cy.intercept(
-    //   "GET",
-    //   "https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages"
-    // ).as("loginRequest");
+    cy.intercept(
+      "POST",
+      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate"
+    ).as("loginRequest");
 
     cy.get('input[name="username"]').type("Admin");
     cy.get('input[name="password"]').type("wrongpass");
     cy.get('button[type="submit"]').click();
 
-    // cy.wait("@loginRequest").its("response.statusCode").should("eq", 304);
+    cy.wait("@loginRequest").its("response.statusCode").should("eq", 302);
 
     cy.get(".oxd-alert-content-text").should("contain", "Invalid credentials");
   });
