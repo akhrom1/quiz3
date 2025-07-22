@@ -1,9 +1,19 @@
+import LoginPage from "../../support/pageObjects/LoginPage";
+
 describe("Fitur Login OrangeHRM", () => {
-  const url =
-    "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+  // const url =
+  //   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+
+  // beforeEach(() => {
+  //   cy.visit(url);
+  // });
+
+  // Tugas 17 POM
+
+  const loginPage = new LoginPage();
 
   beforeEach(() => {
-    cy.visit(url);
+    loginPage.visit();
   });
 
   // afterEach(() => {
@@ -11,14 +21,17 @@ describe("Fitur Login OrangeHRM", () => {
   // });
 
   it("Login berhasil dengan username dan password valid", () => {
+    //Tugas 16 Intercept
     cy.intercept(
       "GET",
       "https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index"
     ).as("loginRequest");
 
-    cy.get('input[name="username"]').type("Admin");
-    cy.get('input[name="password"]').type("admin123");
-    cy.get('button[type="submit"]').click();
+    loginPage.login("Admin", "admin123");
+
+    // cy.get('input[name="username"]').type("Admin");
+    // cy.get('input[name="password"]').type("admin123");
+    // cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest").its("response.statusCode").should("eq", 200);
 
@@ -32,9 +45,10 @@ describe("Fitur Login OrangeHRM", () => {
       "https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate"
     ).as("loginRequest");
 
-    cy.get('input[name="username"]').type("adminx");
-    cy.get('input[name="password"]').type("admin123");
-    cy.get('button[type="submit"]').click();
+    loginPage.login("Adminx", "admin123");
+    // cy.get('input[name="username"]').type("adminx");
+    // cy.get('input[name="password"]').type("admin123");
+    // cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest").its("response.statusCode").should("eq", 302);
 
@@ -47,9 +61,11 @@ describe("Fitur Login OrangeHRM", () => {
       "https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate"
     ).as("loginRequest");
 
-    cy.get('input[name="username"]').type("Admin");
-    cy.get('input[name="password"]').type("wrongpass");
-    cy.get('button[type="submit"]').click();
+    loginPage.login("Admin", "wrongpass");
+
+    // cy.get('input[name="username"]').type("Admin");
+    // cy.get('input[name="password"]').type("wrongpass");
+    // cy.get('button[type="submit"]').click();
 
     cy.wait("@loginRequest").its("response.statusCode").should("eq", 302);
 
